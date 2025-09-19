@@ -36,16 +36,17 @@
       display: block;
     }
 
+    /* 투명 버튼 스타일 */
     .btn-link {
       position: absolute;
       display: block;
       cursor: pointer;
-      background: rgba(255, 0, 0, 0.3); /* 빨간 투명 박스 (테스트용) */
+      background: rgba(255, 0, 0, 0.3); /* 테스트용 빨간 투명 박스 */
     }
 
     /* 보안세션 버튼 */
     .btn-session1 {
-      top: 60%;   /* 세로 위치 */
+      top: 60%;   /* s3 이미지 기준 세로 위치 */
       left: 12%;  /* 가로 위치 */
       width: 25%; /* 가로 크기 */
       height: 8%; /* 세로 크기 */
@@ -61,12 +62,17 @@
   </style>
 </head>
 <body>
-  <!-- 상단 로고 및 제목 -->
+  <!-- 상단 이미지 (경기도교육청 로고 / 제목 / 날짜) -->
   <div class="section">
     <img src="s1.png" alt="경기도교육청 로고와 제목">
   </div>
 
-  <!-- 세션 선택 (버튼 덮임) -->
+  <!-- 중간 이미지 (컨소시엄 로고) -->
+  <div class="section">
+    <img src="s2.png" alt="아이티센엔텍컨소시엄 로고">
+  </div>
+
+  <!-- 하단 (세션 선택, 버튼 덮임) -->
   <div class="container">
     <img src="s3.png" alt="세션 선택 이미지">
 
@@ -75,11 +81,6 @@
 
     <!-- 클라우드세션 버튼 -->
     <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
-  </div>
-
-  <!-- 하단 컨소시엄 로고 -->
-  <div class="section">
-    <img src="s2.png" alt="아이티센엔텍컨소시엄 로고">
   </div>
 </body>
 </html>
