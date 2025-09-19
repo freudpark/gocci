@@ -6,52 +6,46 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       background: #f5f5f5;
     }
 
     .container {
       position: relative;
-      max-width: 1000px;   /* 디자인 원본 이미지 폭 */
-      margin: 0 auto;
-    }
-
-    .bg-image {
       width: 100%;
-      display: block;
+      max-width: 1000px; /* 원본 이미지 폭 */
+      margin: 0 auto;
+      background-image: url("bg_design.png"); /* 디자인된 완성 이미지 */
+      background-size: cover;
+      background-position: center;
+      aspect-ratio: 1000 / 1414; /* 원본 이미지 가로/세로 비율 (예: A4 세로) */
     }
 
-    /* 투명 버튼 영역 */
     .btn-link {
       position: absolute;
       display: block;
-      background: rgba(0,0,0,0); /* 완전 투명 */
-      border: none;
+      background: rgba(255,0,0,0.0); /* 완전 투명 (디버깅 시 0.2 정도로) */
       cursor: pointer;
     }
 
-    /* 세션 1 버튼 영역 좌표 (px 단위는 원본 이미지에 맞춰 조정) */
+    /* 세션 1 버튼 */
     .btn-session1 {
-      top: 500px;
-      left: 200px;
-      width: 250px;
-      height: 60px;
+      top: 65%;   /* 이미지 높이에 대한 비율 */
+      left: 20%;  /* 이미지 너비에 대한 비율 */
+      width: 30%; /* 이미지 너비에 대한 비율 */
+      height: 6%; /* 이미지 높이에 대한 비율 */
     }
 
-    /* 세션 2 버튼 영역 좌표 */
+    /* 세션 2 버튼 */
     .btn-session2 {
-      top: 600px;
-      left: 200px;
-      width: 250px;
-      height: 60px;
+      top: 75%;
+      left: 20%;
+      width: 30%;
+      height: 6%;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- 배경 이미지: 로고, 제목, 날짜, 하단 로고까지 모두 합쳐진 완성 디자인 -->
-    <img src="bg_img.png" alt="착수보고회 안내" class="bg-image">
-
     <!-- 투명 버튼 1 -->
     <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
 
