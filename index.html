@@ -14,25 +14,29 @@
       width: 100%;
       max-width: 1000px; /* 원본 이미지 폭 */
       margin: 0 auto;
-      background-image: url("bg_design.png"); /* 디자인된 완성 이미지 */
+
+      /* 배경 이미지 적용 */
+      background-image: url("bg_design.png");
       background-size: cover;
       background-position: center;
-      aspect-ratio: 1000 / 1414; /* 원본 이미지 가로/세로 비율 (예: A4 세로) */
+
+      /* 이미지 비율 유지 (A4 세로 기준 예시 1000x1414) */
+      aspect-ratio: 1000 / 1414;
     }
 
     .btn-link {
       position: absolute;
       display: block;
-      background: rgba(255,0,0,0.0); /* 완전 투명 (디버깅 시 0.2 정도로) */
+      background: rgba(255,0,0,0.2); /* 디버깅 위해 살짝 보이게 */
       cursor: pointer;
     }
 
     /* 세션 1 버튼 */
     .btn-session1 {
-      top: 65%;   /* 이미지 높이에 대한 비율 */
-      left: 20%;  /* 이미지 너비에 대한 비율 */
-      width: 30%; /* 이미지 너비에 대한 비율 */
-      height: 6%; /* 이미지 높이에 대한 비율 */
+      top: 65%;   /* 배경 높이 비율 */
+      left: 20%;  /* 배경 너비 비율 */
+      width: 30%; /* 배경 너비 비율 */
+      height: 6%; /* 배경 높이 비율 */
     }
 
     /* 세션 2 버튼 */
