@@ -1,86 +1,81 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>경기도교육청 정보자원통합 착수보고회</title>
-  <style>
-    body {
-      margin: 0;
-      text-align: center;
-      background: #f5f5f5;
-      font-family: sans-serif;
-    }
+  <meta charset="UTF-8">
+  <title>경기도교육청 정보자원통합 착수보고회</title>
+  <style>
+    body {
+      margin: 0;
+      text-align: center;
+      background: #f5f5f5;
+      font-family: sans-serif;
+    }
 
-    .section {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+    .section {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-    .section img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .section img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-    .container {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      max-width: 1000px;
-    }
+    .container {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      max-width: 1000px;
+    }
 
-    .container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-    /* 투명 버튼 스타일 */
-    .btn-link {
-      position: absolute;
-      display: block;
-      cursor: pointer;
-      background: rgba(255, 0, 0, 0.3); /* 테스트용 빨간 투명 박스 */
-    }
+    /* 투명 버튼 스타일 */
+    .btn-link {
+      position: absolute;
+      display: block;
+      cursor: pointer;
+      /* background: rgba(255, 0, 0, 0.3); */ /* 테스트 후에는 투명하게 만듭니다. */
+    }
 
-    /* 보안세션 버튼 */
-    .btn-session1 {
-      top: 60%;   /* s3 이미지 기준 세로 위치 */
-      left: 12%;  /* 가로 위치 */
-      width: 25%; /* 가로 크기 */
-      height: 8%; /* 세로 크기 */
-    }
+    /* 보안세션 버튼 */
+    .btn-session1 {
+      top: 60%;   /* s3 이미지 기준 세로 위치 */
+      left: 12%;  /* 가로 위치 */
+      width: 25%; /* 가로 크기 */
+      height: 8%; /* 세로 크기 */
+    }
 
-    /* 클라우드세션 버튼 */
-    .btn-session2 {
-      top: 60%;
-      left: 60%;
-      width: 25%;
-      height: 8%;
-    }
-  </style>
+    /* 클라우드세션 버튼 */
+    .btn-session2 {
+      top: 60%;
+      left: 60%;
+      width: 25%;
+      height: 8%;
+    }
+  </style>
 </head>
 <body>
-  <!-- 상단 이미지  -->
-  <div class="section">
-    <img src="s1.png" alt="경기도교육청 착수보고회 표지">
-  </div>
+    <div class="section">
+        <img src="images/s1.png" alt="경기도교육청 착수보고회 표지">
+  </div>
 
-  <!-- 중간 이미지 -->
-  <div class="section">
-    <img src="s2.png" alt="행사일정">
-  </div>
+    <div class="section">
+        <img src="images/s2.png" alt="행사일정">
+  </div>
 
-  <!-- 하단 (세션 선택, 버튼 덮임) -->
-  <div class="container">
-    <img src="s3.png" alt="특강세션">
+    <div class="container">
+        <img src="images/s3.png" alt="특강세션">
 
-    <!-- 보안세션 버튼 -->
-    <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
+        <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
 
-    <!-- 클라우드세션 버튼 -->
-    <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
-  </div>
+        <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
+  </div>
 </body>
 </html>
