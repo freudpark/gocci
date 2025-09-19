@@ -1,58 +1,83 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>경기도교육청 정보자원통합 착수보고회</title>
-  <style>
-    body {
-      margin: 0;
-      text-align: center;
-      background: #f5f5f5;
-      font-family: sans-serif;
-    }
+  <meta charset="UTF-8">
+  <title>경기도교육청 정보자원통합 착수보고회</title>
+  <style>
+    body {
+      margin: 0;
+      text-align: center;
+      background: #f5f5f5;
+      font-family: sans-serif;
+    }
 
-    .section, .container {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+    .section, .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-    .section img, .container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .section img, .container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-    .container {
-      position: relative;
-    }
+    .container {
+      position: relative;
+    }
 
-    .btn-link {
-      position: absolute;
-      display: block;
-      cursor: pointer;
-    }
+    .btn-link {
+      position: absolute;
+      display: block;
+      cursor: pointer;
+      /* 투명 버튼 → 클릭 영역만 남김 */
+    }
 
-    .btn-session1 {
-      top: 60%; left: 12%; width: 25%; height: 8%;
-    }
+    /* s3 버튼 클릭영역 (비율 기반 → 반응형 대응) */
+    .btn-session1 {
+      top: 60%;    /* 상단에서 60% */
+      left: 12%;   /* 왼쪽에서 12% */
+      width: 25%;  /* 전체 이미지 대비 25% */
+      height: 8%;  /* 전체 이미지 대비 8% */
+    }
 
-    .btn-session2 {
-      top: 60%; left: 60%; width: 25%; height: 8%;
-    }
-  </style>
+    .btn-session2 {
+      top: 60%;
+      left: 60%;
+      width: 25%;
+      height: 8%;
+    }
+
+    /* hover 효과 → 버튼 위치 확인 가능 */
+    .btn-link:hover {
+      background: rgba(0, 123, 255, 0.2); /* 파란색 반투명 */
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    /* 모바일 대응 */
+    @media (max-width: 600px) {
+      .btn-session1, .btn-session2 {
+        height: 10%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="section">
-    <img src="s1.png" alt="경기도교육청 착수보고회 표지">
-  </div>
-  <div class="section">
-    <img src="s2.png" alt="행사일정">
-  </div>
-  <div class="container">
-    <img src="s3.png" alt="특강세션">
-    <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
-    <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
-  </div>
+  <!-- s1 -->
+  <div class="section">
+    <img src="s1.png" alt="경기도교육청 착수보고회 표지">
+  </div>
+  <!-- s2 -->
+  <div class="section">
+    <img src="s2.png" alt="행사일정">
+  </div>
+  <!-- s3 + 버튼 -->
+  <div class="container">
+    <img src="s3.png" alt="특강세션">
+    <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
+    <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
+  </div>
 </body>
 </html>
