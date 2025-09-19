@@ -2,14 +2,102 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>PDF 보기</title>
+  <title>경기도교육청 정보자원통합 착수보고회</title>
   <style>
-    html, body { margin:0; height:100%; }
-    iframe { width:100%; height:100%; border:none; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: space-between;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #004aad;
+      color: white;
+    }
+
+    /* 상단 경기도교육청 로고 */
+    header img {
+      height: 80px;   /* 기존 60px → 더 크게 */
+      max-width: 250px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 1.8em;
+    }
+
+    .date {
+      font-size: 1em;
+      color: #e0e0e0;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      background: #004aad;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #0066ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #f0f0f0;
+    }
+
+    /* 하단 컨소시엄 로고 */
+    footer img {
+      height: 70px;   /* 기존 50px → 조금 더 크게 */
+      max-width: 300px;
+      object-fit: contain;
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
-  <!-- 같은 폴더에 있는 guide.pdf를 iframe으로 표시 -->
-  <iframe src="S_2_Beyond Cloud Native.pdf"></iframe>
+  <!-- 상단 경기도교육청 로고 및 제목 -->
+  <header>
+    <img src="edu_logo.png" alt="경기도교육청 로고">
+    <h1>경기도교육청 정보자원통합 착수보고회</h1>
+    <div class="date">2025년 9월 19일</div>
+  </header>
+
+  <!-- 메인 세션 버튼 -->
+  <main>
+    <a href="session1_zerotrust.pdf" target="_blank" class="btn">특강 세션 1 : 제로트러스트 특강파일 열기</a>
+    <a href="session2_cloud.pdf" target="_blank" class="btn">특강 세션 2 : 클라우드 특강파일 열기</a>
+  </main>
+
+  <!-- 하단 컨소시엄 로고 -->
+  <footer>
+    <img src="iticen_entec_logo.png" alt="아이티센엔텍컨소시엄 로고">
+  </footer>
 </body>
 </html>
