@@ -11,13 +11,13 @@
       font-family: sans-serif;
     }
 
-    .section {
+    .section, .container {
       width: 100%;
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .section img {
+    .section img, .container img {
       width: 100%;
       height: auto;
       display: block;
@@ -25,57 +25,34 @@
 
     .container {
       position: relative;
-      display: inline-block;
-      width: 100%;
-      max-width: 1000px;
     }
 
-    .container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* 투명 버튼 스타일 */
     .btn-link {
       position: absolute;
       display: block;
       cursor: pointer;
-      /* background: rgba(255, 0, 0, 0.3); */ /* 위치 확인 후 주석 처리 또는 삭제 */
     }
 
-    /* 보안세션 버튼 */
     .btn-session1 {
-      top: 60%;
-      left: 12%;
-      width: 25%;
-      height: 8%;
+      top: 60%; left: 12%; width: 25%; height: 8%;
     }
 
-    /* 클라우드세션 버튼 */
     .btn-session2 {
-      top: 60%;
-      left: 60%;
-      width: 25%;
-      height: 8%;
+      top: 60%; left: 60%; width: 25%; height: 8%;
     }
   </style>
 </head>
 <body>
-    <div class="section">
-        <img src="s1.png" alt="경기도교육청 착수보고회 표지">
+  <div class="section">
+    <img src="s1.png" alt="경기도교육청 착수보고회 표지">
   </div>
-
-    <div class="section">
-        <img src="s2.png" alt="행사일정">
+  <div class="section">
+    <img src="s2.png" alt="행사일정">
   </div>
-
-    <div class="container">
-        <img src="s3.png" alt="특강세션">
-
-        <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
-
-        <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
+  <div class="container">
+    <img src="s3.png" alt="특강세션">
+    <a href="session1_zerotrust.pdf" target="_blank" class="btn-link btn-session1"></a>
+    <a href="session2_cloud.pdf" target="_blank" class="btn-link btn-session2"></a>
   </div>
 </body>
 </html>
