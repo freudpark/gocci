@@ -2,132 +2,91 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>경기도교육청 정보자원통합 착수보고회</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>세션 분기 (반응형)</title>
   <style>
+    /* 전체 바디 스타일 초기화 */
     body {
       margin: 0;
       font-family: sans-serif;
-      background: #f5f5f5;
-      text-align: center;
+    }
+
+    /* 섹션들을 감싸는 반응형 컨테이너 */
+    .container {
+      display: flex; /* Flexbox 레이아웃 사용 */
+      flex-direction: column; /* 기본적으로 세로로 쌓이도록 설정 */
+      align-items: center; /* 가운데 정렬 */
+      padding: 20px;
     }
 
     .section {
-      display: none;
-      max-width: 1000px;
-      margin: 0 auto;
-      position: relative;
+      /* display: none; -> 항상 보이도록 제거 */
+      text-align: center;
+      margin-top: 50px;
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 80%;
+      max-width: 600px;
     }
-
-    .active {
-      display: block;
-    }
-
-    .section img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* s3 버튼 스타일 */
-    .btn-link {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.2em;
-      text-decoration: none;
-      background: rgba(0, 123, 255, 0.7);
-      border-radius: 8px;
-      transition: background 0.3s ease;
-    }
-
-    .btn-link:hover {
-      background: rgba(0, 123, 255, 0.9);
-    }
-
-    /* s3 버튼 위치 */
-    .btn-session1 {
-      top: 60%;
-      left: 12%;
-      width: 25%;
-      height: 8%;
-    }
-
-    .btn-session2 {
-      top: 60%;
-      left: 60%;
-      width: 25%;
-      height: 8%;
-    }
-
-    /* 모바일 대응 */
-    @media (max-width: 600px) {
-      .btn-link {
-        font-size: 1em;
+    
+    /* 화면이 768px 이상일 때 가로로 배치 */
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row; /* 가로 방향으로 변경 */
+        align-items: flex-start; /* 위쪽 정렬 */
+        justify-content: center; /* 가운데 정렬 */
       }
-      .btn-session1, .btn-session2 {
-        height: 10%;
+      .section {
+        margin: 10px;
       }
     }
 
-    /* 일반 버튼 스타일 */
     button {
       margin: 10px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+      border: 1px solid black;
+    }
+
+    /* S3 내부의 버튼 텍스트를 CSS로 변경 */
+    #s3 .button-secure span, #s3 .button-cloud span {
+      display: none; /* 원래 HTML 텍스트 숨기기 */
+    }
+
+    #s3 .button-secure::after {
+      content: '분기명령버튼 누르기'; /* CSS로 새로운 텍스트 추가 */
+    }
+
+    #s3 .button-cloud::after {
+      content: '분깅셩렁버튼'; /* CSS로 새로운 텍스트 추가 */
     }
 
   </style>
 </head>
 <body>
 
-  <!-- S1 -->
-  <div id="s1" class="section active">
-    <img src="s1.png" alt="S1 이미지">
-    <br>
-    <button onclick="showSection('s2')">다음</button>
+  <div class="container">
+
+    <div id="s1" class="section">
+      <h2>S1 화면</h2>
+      <img src="s1.png" alt="s1 이미지" style="width:100%; max-width:300px;">
+    </div>
+
+    <div id="s2" class="section">
+      <h2>S2 화면</h2>
+      <img src="s2.png" alt="s2 이미지" style="width:100%; max-width:300px;">
+    </div>
+
+    <div id="s3" class="section">
+      <h2>S3 화면</h2>
+      <img src="s3.png" alt="s3 이미지" style="width:100%; max-width:300px;">
+      <br>
+      <button class="button-secure"><span>보안세션</span></button>
+      <button class="button-cloud"><span>클라우드세션</span></button>
+    </div>
+
   </div>
-
-  <!-- S2 -->
-  <div id="s2" class="section">
-    <img src="s2.png" alt="S2 이미지">
-    <br>
-    <button onclick="showSection('s3')">다음</button>
-  </div>
-
-  <!-- S3 -->
-  <div id="s3" class="section">
-    <img src="s3.png" alt="S3 이미지">
-    <!-- s3 이미지 위 버튼 -->
-    <a class="btn-link btn-session1" onclick="showSection('secure')">보안세션</a>
-    <a class="btn-link btn-session2" onclick="showSection('cloud')">클라우드세션</a>
-  </div>
-
-  <!-- 보안세션 -->
-  <div id="secure" class="section">
-    <h2>보안세션</h2>
-    <p>여기는 보안세션 화면입니다.</p>
-    <button onclick="showSection('s1')">처음으로</button>
-  </div>
-
-  <!-- 클라우드세션 -->
-  <div id="cloud" class="section">
-    <h2>클라우드세션</h2>
-    <p>여기는 클라우드세션 화면입니다.</p>
-    <button onclick="showSection('s1')">처음으로</button>
-  </div>
-
-  <script>
-    function showSection(id) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-  </script>
-
-</body>
+  
+  </body>
 </html>
