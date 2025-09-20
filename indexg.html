@@ -1,75 +1,130 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF 라이트박스 예제</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
-    
-    <style>
-        /* 기본 스타일링 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-        }
-        /* 버튼 스타일 */
-        .pdf-button {
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .pdf-button:hover {
-            background-color: #0056b3;
-        }
-        /* 라이트박스 내부 iframe 스타일 (화면 크기에 맞게 조절) */
-        .pdf-iframe {
-            width: 80vw;
-            height: 90vh;
-            border: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지 위 버튼 클릭 시 PDF 라이트박스 보기</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: sans-serif;
+    }
+
+    .container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px; /* 이미지 사이의 간격 */
+    }
+
+    .image-wrapper {
+      position: relative; /* 버튼을 이미지 위에 올리기 위한 기준점 */
+      max-width: 500px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden; /* 둥근 모서리 밖으로 이미지가 나가지 않도록 */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .image-wrapper img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .button-overlay {
+      position: absolute; /* .image-wrapper를 기준으로 위치 고정 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex; /* 버튼들을 정렬하기 위해 flex 사용 */
+      justify-content: center;
+      align-items: center;
+      gap: 10px; /* 버튼 사이의 간격 */
+    }
+
+    .overlay-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30%;
+      height: 30px;
+      background-color: rgba(0, 123, 255, 0.7); /* 파란색, 70% 투명도 */
+      color: white;
+      text-decoration: none; /* 링크의 밑줄 제거 */
+      font-size: 14px;
+      font-weight:bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    }
+
+    .overlay-button:hover {
+      background-color: rgba(0, 86, 179, 0.9); /* 마우스를 올렸을 때 더 진하게 */
+    }
+
+    /* 라이트박스 내부 PDF 스타일 (추가) */
+    .pdf-iframe {
+      width: 80vw;
+      height: 90vh;
+      border: none;
+    }
+  </style>
 </head>
 <body>
 
-    <button class="pdf-button" data-pdf-src="sample.pdf">📄 PDF 보기</button>
-    
-    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+  <div class="container">
 
-    <script>
-        // 모든 'pdf-button' 클래스를 가진 버튼에 이벤트 리스너 추가
-        document.querySelectorAll('.pdf-button').forEach(button => {
-            button.addEventListener('click', (event) => {
-                // 버튼의 data-pdf-src 속성에서 PDF 파일 경로 가져오기
-                const pdfSrc = event.currentTarget.getAttribute('data-pdf-src');
+    <div class="image-wrapper">
+      <img src="s1.png" alt="S1 이미지">
+    </div>
 
-                // PDF를 표시할 iframe 생성
-                const iframe = `<iframe src="${pdfSrc}" class="pdf-iframe"></iframe>`;
+    <div class="image-wrapper">
+      <img src="s2.png" alt="S2 이미지">
+    </div>
 
-                // basicLightbox 인스턴스 생성 및 표시
-                const lightbox = basicLightbox.create(iframe, {
-                    // 라이트박스가 닫힐 때 내부 자원(iframe)을 깔끔하게 제거
-                    onClose: (instance) => {
-                        // 메모리 누수 방지를 위해 내용을 비웁니다.
-                        instance.element().innerHTML = '';
-                    }
-                });
+    <div class="image-wrapper">
+      <img src="s3.png" alt="S3 이미지">
+      
+      <div class="button-overlay">
+        <a href="#" data-pdf-src="session1_zerotrust.pdf" class="overlay-button">보안-누르기</a>
+        <a href="#" data-pdf-src="session2_cloud.pdf" class="overlay-button">클라우드</a>
+      </div>
+    </div>
 
-                lightbox.show();
-            });
-        });
-    </script>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+
+  <script>
+    // 클래스가 'overlay-button'인 모든 링크(a 태그)를 찾습니다.
+    document.querySelectorAll('.overlay-button').forEach(button => {
+      // 각 버튼에 클릭 이벤트를 추가합니다.
+      button.addEventListener('click', (event) => {
+        // a 태그의 기본 동작(페이지 이동)을 막습니다.
+        event.preventDefault();
+
+        // 클릭된 버튼의 'data-pdf-src' 속성에서 PDF 파일 경로를 가져옵니다.
+        const pdfSrc = event.currentTarget.getAttribute('data-pdf-src');
+        
+        // PDF 파일이 지정되지 않았다면 아무것도 하지 않습니다.
+        if (!pdfSrc) return;
+
+        // PDF를 보여줄 iframe 태그를 생성합니다.
+        const iframe = `<iframe src="${pdfSrc}" class="pdf-iframe"></iframe>`;
+
+        // basicLightbox를 이용해 iframe을 내용으로 하는 라이트박스를 생성하고 보여줍니다.
+        basicLightbox.create(iframe).show();
+      });
+    });
+  </script>
 
 </body>
 </html>
