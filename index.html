@@ -3,63 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>세션 분기 (반응형)</title>
+  <title>세션 연속 보기 (반응형)</title>
   <style>
-    /* 전체 바디 스타일 초기화 */
+    /* --- 기본 스타일 --- */
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f4f4f4;
     }
 
-    /* 섹션들을 감싸는 반응형 컨테이너 */
+    /* --- 반응형 컨테이너 --- */
     .container {
-      display: flex; /* Flexbox 레이아웃 사용 */
-      flex-direction: column; /* 기본적으로 세로로 쌓이도록 설정 */
-      align-items: center; /* 가운데 정렬 */
       padding: 20px;
     }
 
     .section {
-      /* display: none; -> 항상 보이도록 제거 */
+      background-color: white;
       text-align: center;
-      margin-top: 50px;
-      border: 1px solid #ddd;
+      margin: 0 auto 30px auto; /* 가운데 정렬 및 섹션 간 간격 */
       padding: 20px;
-      width: 80%;
-      max-width: 600px;
-    }
-    
-    /* 화면이 768px 이상일 때 가로로 배치 */
-    @media (min-width: 768px) {
-      .container {
-        flex-direction: row; /* 가로 방향으로 변경 */
-        align-items: flex-start; /* 위쪽 정렬 */
-        justify-content: center; /* 가운데 정렬 */
-      }
-      .section {
-        margin: 10px;
-      }
+      border: 1px solid #ddd;
+      border-radius: 8px; /* 모서리 둥글게 */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자 효과 */
+      max-width: 500px; /* 최대 너비 제한 */
     }
 
+    .section h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .section img {
+      max-width: 100%; /* 이미지가 섹션 너비를 넘지 않도록 설정 */
+      height: auto;
+      border-radius: 4px;
+    }
+
+    /* --- 버튼 스타일 --- */
     button {
       margin: 10px;
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
       cursor: pointer;
       border: 1px solid black;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      font-weight: bold;
     }
 
-    /* S3 내부의 버튼 텍스트를 CSS로 변경 */
-    #s3 .button-secure span, #s3 .button-cloud span {
-      display: none; /* 원래 HTML 텍스트 숨기기 */
+    /* --- CSS로 버튼 텍스트 변경 --- */
+    /* 1. 원래 HTML 텍스트를 담을 span을 숨김 */
+    #s3 .button-secure span, 
+    #s3 .button-cloud span {
+      display: none;
     }
 
+    /* 2. CSS의 ::after 가상 요소를 사용해 새로운 텍스트 삽입 */
     #s3 .button-secure::after {
-      content: '분기명령버튼 누르기'; /* CSS로 새로운 텍스트 추가 */
+      content: '분기명령버튼 누르기';
     }
 
     #s3 .button-cloud::after {
-      content: '분깅셩렁버튼'; /* CSS로 새로운 텍스트 추가 */
+      content: '클라우드세션 버튼'; /* '분깅셩렁버튼' 오타 수정 */
     }
 
   </style>
@@ -70,23 +75,27 @@
 
     <div id="s1" class="section">
       <h2>S1 화면</h2>
-      <img src="s1.png" alt="s1 이미지" style="width:100%; max-width:300px;">
+      <img src="s1.png" alt="s1 이미지">
     </div>
 
     <div id="s2" class="section">
       <h2>S2 화면</h2>
-      <img src="s2.png" alt="s2 이미지" style="width:100%; max-width:300px;">
+      <img src="s2.png" alt="s2 이미지">
     </div>
 
     <div id="s3" class="section">
       <h2>S3 화면</h2>
-      <img src="s3.png" alt="s3 이미지" style="width:100%; max-width:300px;">
+      <img src="s3.png" alt="s3 이미지">
       <br>
-      <button class="button-secure"><span>보안세션</span></button>
-      <button class="button-cloud"><span>클라우드세션</span></button>
+      <button class="button-secure">
+        <span>보안세션</span>
+      </button>
+      <button class="button-cloud">
+        <span>클라우드세션</span>
+      </button>
     </div>
 
   </div>
-  
+
   </body>
 </html>
