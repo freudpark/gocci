@@ -3,43 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경기도교육청 정보자원통합 착수보고회</title>
+    <title>PDF 라이트박스 예제</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
+    
     <style>
+        /* 기본 스타일링 */
         body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
             background-color: #f0f2f5;
-            text-align: center;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+        /* 버튼 스타일 */
+        .pdf-button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        .pdf-button:hover {
+            background-color: #0056b3;
+        }
+        /* 라이트박스 내부 iframe 스타일 (화면 크기에 맞게 조절) */
+        .pdf-iframe {
+            width: 80vw;
+            height: 90vh;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="s1.jpg" alt="경기도교육청 정보자원통합 착수보고회">
-        <hr>
-        <img src="s2.jpg" alt="진행계획">
-        <hr>
-        <img src="s3.jpg" alt="특별강연" usemap="#sessionmap">
+    <button class="pdf-button" data-pdf-src="sample.pdf">📄 PDF 보기</button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
 
-        <map name="sessionmap">
-            <area shape="rect" coords="206,447,388,485" href="session1_zerotrust.pdf" target="_blank" alt="보안세션">
-            <area shape="rect" coords="535,447,716,483" href="session2_cloud.pdf" target="_blank" alt="클라우드세션">
-        </map>
-    </div>
+    <script>
+        // 모든 'pdf-button' 클래스를 가진 버튼에 이벤트 리스너 추가
+        document.querySelectorAll('.pdf-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                // 버튼의 data-pdf-src 속성에서 PDF 파일 경로 가져오기
+                const pdfSrc = event.currentTarget.getAttribute('data-pdf-src');
+
+                // PDF를 표시할 iframe 생성
+                const iframe = `<iframe src="${pdfSrc}" class="pdf-iframe"></iframe>`;
+
+                // basicLightbox 인스턴스 생성 및 표시
+                const lightbox = basicLightbox.create(iframe, {
+                    // 라이트박스가 닫힐 때 내부 자원(iframe)을 깔끔하게 제거
+                    onClose: (instance) => {
+                        // 메모리 누수 방지를 위해 내용을 비웁니다.
+                        instance.element().innerHTML = '';
+                    }
+                });
+
+                lightbox.show();
+            });
+        });
+    </script>
 
 </body>
 </html>
