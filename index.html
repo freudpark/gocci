@@ -3,68 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>세션 연속 보기 (반응형)</title>
+  <title>이미지 연속 보기 (CSS 버튼)</title>
   <style>
-    /* --- 기본 스타일 --- */
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f0f0f0;
+      font-family: sans-serif;
     }
 
-    /* --- 반응형 컨테이너 --- */
     .container {
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px; /* 이미지 사이의 간격 */
     }
 
-    .section {
-      background-color: white;
-      text-align: center;
-      margin: 0 auto 30px auto; /* 가운데 정렬 및 섹션 간 간격 */
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px; /* 모서리 둥글게 */
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자 효과 */
-      max-width: 500px; /* 최대 너비 제한 */
+    .image-wrapper {
+      position: relative; /* 버튼을 이미지 위에 올리기 위한 기준점 */
+      max-width: 500px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden; /* 둥근 모서리 밖으로 이미지가 나가지 않도록 */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
-    .section h2 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    .section img {
-      max-width: 100%; /* 이미지가 섹션 너비를 넘지 않도록 설정 */
+    .image-wrapper img {
+      display: block;
+      width: 100%;
       height: auto;
-      border-radius: 4px;
     }
 
-    /* --- 버튼 스타일 --- */
-    button {
-      margin: 10px;
-      padding: 12px 24px;
+    /* --- S3 파란색 투명 버튼 스타일 --- */
+    .button-overlay {
+      position: absolute; /* .image-wrapper를 기준으로 위치 고정 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex; /* 버튼들을 정렬하기 위해 flex 사용 */
+      justify-content: center;
+      align-items: center;
+      gap: 10px; /* 버튼 사이의 간격 */
+    }
+
+    .overlay-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40%;
+      height: 50px;
+      background-color: rgba(0, 123, 255, 0.7); /* 파란색, 70% 투명도 */
+      color: white;
+      text-decoration: none; /* 링크의 밑줄 제거 */
       font-size: 16px;
-      cursor: pointer;
-      border: 1px solid black;
-      background-color: #f8f9fa;
-      border-radius: 5px;
       font-weight: bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
     }
 
-    /* --- CSS로 버튼 텍스트 변경 --- */
-    /* 1. 원래 HTML 텍스트를 담을 span을 숨김 */
-    #s3 .button-secure span, 
-    #s3 .button-cloud span {
-      display: none;
-    }
-
-    /* 2. CSS의 ::after 가상 요소를 사용해 새로운 텍스트 삽입 */
-    #s3 .button-secure::after {
-      content: '분기명령버튼 누르기';
-    }
-
-    #s3 .button-cloud::after {
-      content: '클라우드세션 버튼'; /* '분깅셩렁버튼' 오타 수정 */
+    .overlay-button:hover {
+      background-color: rgba(0, 86, 179, 0.9); /* 마우스를 올렸을 때 더 진하게 */
     }
 
   </style>
@@ -73,29 +74,25 @@
 
   <div class="container">
 
-    <div id="s1" class="section">
-      <h2>S1 화면</h2>
-      <img src="s1.png" alt="s1 이미지">
+    <div class="image-wrapper">
+      <img src="s1.png" alt="S1 이미지">
     </div>
 
-    <div id="s2" class="section">
-      <h2>S2 화면</h2>
-      <img src="s2.png" alt="s2 이미지">
+    <div class="image-wrapper">
+      <img src="s2.png" alt="S2 이미지">
     </div>
 
-    <div id="s3" class="section">
-      <h2>S3 화면</h2>
-      <img src="s3.png" alt="s3 이미지">
-      <br>
-      <button class="button-secure">
-        <span>보안세션</span>
-      </button>
-      <button class="button-cloud">
-        <span>클라우드세션</span>
-      </button>
+    <div class="image-wrapper">
+      <img src="s3.png" alt="S3 이미지">
+      
+      <div class="button-overlay">
+        <a href="/secure" class="overlay-button">보안세션</a>
+        
+        <a href="/cloud" class="overlay-button">클라우드세션</a>
+      </div>
     </div>
 
   </div>
 
-  </body>
+</body>
 </html>
