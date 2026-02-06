@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS 작업 현황 연결</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        /**
+         * 카카오톡 인앱 브라우저 탈출 및 
+         * 외부 브라우저 강제 실행 스크립트
+         */
+        var userAgent = navigator.userAgent.toLowerCase();
+        var targetUrl = "https://docs.google.com/spreadsheets/d/" +
+            "1v9cV2ACUUKhxkOluWz04aDs-8vtbsLy1lmkZJpchq5I/" +
+            "edit?gid=59789816#gid=59789816";
+
+        if (userAgent.match(/kakaotalk/i)) {
+            // 안드로이드 환경: 크롬 패키지로 실행
+            if (userAgent.match(/android/i)) {
+                location.href = "intent://" +
+                    targetUrl.replace(/https?:\/\//i, "") +
+                    "#Intent;scheme=https;package=com.android.chrome;end";
+            }
+            // iOS(아이폰/아이패드) 환경: 사파리 외부 앱 실행
+            else if (userAgent.match(/iphone|ipad|ipod/i)) {
+                location.href = "kakaotalk://web/openExternalApp?url=" +
+                    encodeURIComponent(targetUrl);
+            }
+            // 기타 환경
+            else {
+                location.replace(targetUrl);
+            }
+        } else {
+            // 일반 브라우저(크롬, 엣지 등)는 즉시 이동
+            location.replace(targetUrl);
+        }
+    </script>
+
+    <div style="padding: 20px; text-align: center; 
+font-family: sans-serif; line-height: 1.6;">
+        <p>구글 시트로 이동 중입니다.</p>
+        <p>화면이 멈춰있다면 아래 링크를 클릭하세요.</p>
+        <a href="https://docs.google.com/spreadsheets/d/1v9cV2ACUUKhxkOluWz04aDs-8vtbsLy1lmkZJpchq5I/edit?gid=59789816#gid=59789816"
+            style="color: #1a73e8; text-decoration: none; 
+    font-weight: bold;">
+            [ CMS 작업 현황판 열기 ]
+        </a>
+    </div>
+</body>
+
+</html>
