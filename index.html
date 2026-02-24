@@ -69,17 +69,38 @@
             font-weight: 400;
             letter-spacing: 0.05em;
             background: linear-gradient(to right, #93c5fd, #c084fc);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0.9;
         }
 
-        .pdf-viewer {
+        .viewer-wrapper {
+            position: relative;
             flex-grow: 1;
             width: 100%;
             border-radius: 8px;
-            border: none;
+            overflow: hidden;
             background: #000;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* The Protective Mask */
+        .protection-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(128, 128, 128, 0.05);
+            /* Subtle gray mask */
+            z-index: 10;
+            cursor: default;
         }
 
         footer {
@@ -122,14 +143,18 @@
             <h1>경기도교육청 정보자원통합 중간보고회</h1>
         </header>
 
-        <!-- #toolbar=0 disables the default Chrome PDF toolbar, which includes the download button -->
-        <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer" id="viewer">
-            <p>Your browser does not support iframes.</p>
-        </iframe>
+        <div class="viewer-wrapper">
+            <!-- Protective overlay that blocks clicks -->
+            <div class="protection-overlay"></div>
+
+            <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=1" class="pdf-viewer" id="viewer">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized access only.<br>
-            Last Deployed: 2026-02-24 17:42:15 (KST)
+            Last Deployed: 2026-02-24 17:48:30 (KST)
         </footer>
     </div>
 
