@@ -115,13 +115,43 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: calc(100% - 40px);
-            /* Leave space for scrollbar area */
+            width: calc(100% - 80px);
+            /* Space for wide navigation area */
             height: 100%;
             background: rgba(128, 128, 128, 0.05);
-            /* Subtle gray mask */
+            /* Subtle grey mask */
             z-index: 10;
             cursor: default;
+        }
+
+        /* Visible Scroll Track */
+        .scroll-track-guide {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            /* Bright white */
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            letter-spacing: 0.8em;
+            pointer-events: none;
+            /* Let events pass */
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .scroll-track-guide::after {
+            content: "자료 이동";
+            padding: 20px 0;
         }
 
         footer {
@@ -172,8 +202,13 @@
                 font-size: 1rem;
             }
 
-            .nav-guide {
+            .nav-guide,
+            .scroll-track-guide {
                 display: none;
+            }
+
+            .protection-overlay {
+                width: 100%;
             }
         }
     </style>
@@ -183,12 +218,15 @@
     <div class="container">
         <header>
             <h1>경기도교육청 정보자원통합 중간보고회</h1>
-            <div class="nav-guide">우측의 스크롤바를 클릭하거나 드래그하여 이동하세요</div>
+            <div class="nav-guide">우측 흰색 영역을 이용해 이동하세요</div>
         </header>
 
         <div class="viewer-wrapper">
             <!-- Protective overlay that blocks clicks -->
             <div class="protection-overlay" id="overlay"></div>
+
+            <!-- Visible guide for the scroll area -->
+            <div class="scroll-track-guide"></div>
 
             <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=1" class="pdf-viewer" id="viewer">
                 <p>Your browser does not support iframes.</p>
@@ -197,7 +235,7 @@
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized access only.<br>
-            Last Deployed: 2026-02-24 18:08:00 (KST)
+            Last Deployed: 2026-02-24 19:10:00 (KST)
         </footer>
     </div>
 
