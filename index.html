@@ -62,6 +62,7 @@
             align-items: center;
             padding: 8px 0;
             border-bottom: 1px solid var(--glass-border);
+            gap: 20px;
         }
 
         h1 {
@@ -73,6 +74,25 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0.9;
+        }
+
+        /* Navigation Guide Badge */
+        .nav-guide {
+            padding: 4px 12px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #93c5fd;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-guide::before {
+            content: "ℹ";
+            font-weight: bold;
         }
 
         .viewer-wrapper {
@@ -95,8 +115,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: calc(100% - 20px);
-            /* Leave space for scrollbar */
+            width: calc(100% - 40px);
+            /* Leave space for scrollbar area */
             height: 100%;
             background: rgba(128, 128, 128, 0.05);
             /* Subtle gray mask */
@@ -109,6 +129,23 @@
             font-size: 0.75rem;
             opacity: 0.4;
             text-align: center;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
         }
 
         @keyframes scaleIn {
@@ -134,6 +171,10 @@
             h1 {
                 font-size: 1rem;
             }
+
+            .nav-guide {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -142,6 +183,7 @@
     <div class="container">
         <header>
             <h1>경기도교육청 정보자원통합 중간보고회</h1>
+            <div class="nav-guide">마우스 휠 또는 우측 스크롤바를 이용해 이동하세요</div>
         </header>
 
         <div class="viewer-wrapper">
@@ -155,7 +197,7 @@
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized access only.<br>
-            Last Deployed: 2026-02-24 17:52:00 (KST)
+            Last Deployed: 2026-02-24 18:00:00 (KST)
         </footer>
     </div>
 
