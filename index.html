@@ -95,7 +95,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: calc(100% - 20px);
+            /* Leave space for scrollbar */
             height: 100%;
             background: rgba(128, 128, 128, 0.05);
             /* Subtle gray mask */
@@ -145,7 +146,7 @@
 
         <div class="viewer-wrapper">
             <!-- Protective overlay that blocks clicks -->
-            <div class="protection-overlay"></div>
+            <div class="protection-overlay" id="overlay"></div>
 
             <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=1" class="pdf-viewer" id="viewer">
                 <p>Your browser does not support iframes.</p>
@@ -154,42 +155,39 @@
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized access only.<br>
-            Last Deployed: 2026-02-24 17:48:30 (KST)
+            Last Deployed: 2026-02-24 17:52:00 (KST)
         </footer>
     </div>
 
     <script>
+        const overlay = document.getElementById('overlay');
+        const iframe = document.getElementById('viewer');
+
+        // Forward wheel events from overlay to iframe
+        overlay.addEventListener('wheel', function (e) {
+            try {
+                // PDF viewers inside iframes are tricky. 
+                // We try to scroll the contentWindow if accessible.
+                iframe.contentWindow.scrollBy(0, e.deltaY);
+            } catch (err) {
+                // Cross-origin catch, though same-origin should be fine.
+            }
+        }, { passive: true });
+
         // Additional protection layer
         document.addEventListener('keydown', function (e) {
-            // Disable PrintScreen (not always possible, but good to try)
-            if (e.key === 'PrintScreen') {
-                e.preventDefault();
-            }
-            // Disable Save (Ctrl+S or Cmd+S)
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault();
-            }
-            // Disable Print (Ctrl+P or Cmd+P)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-                e.preventDefault();
-            }
-            // Disable DevTools (F12, Ctrl+Shift+I)
-            if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i')) {
-                e.preventDefault();
-            }
+            if (e.key === 'PrintScreen') e.preventDefault();
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') e.preventDefault();
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') e.preventDefault();
+            if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i')) e.preventDefault();
         });
 
-        // Block context menu even on iframe (though it's harder in cross-origin, same-origin works better)
-        const iframe = document.getElementById('viewer');
         iframe.onload = function () {
             try {
                 iframe.contentWindow.addEventListener('contextmenu', function (e) {
                     e.preventDefault();
                 }, false);
-            } catch (e) {
-                // If cross-origin restrictions apply, this catch will trigger.
-                // But since it's same-origin, it should work.
-            }
+            } catch (e) { }
         };
     </script>
 </body>
