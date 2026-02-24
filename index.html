@@ -22,7 +22,6 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
-            /* Disable selection */
         }
 
         body {
@@ -39,30 +38,21 @@
         }
 
         .container {
-            width: 98%;
-            /* Increased width */
-            max-width: 1600px;
-            height: 96vh;
-            /* Increased height */
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
-            padding: 12px;
+            width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         header {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px 0;
+            padding: 12px 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
-            gap: 20px;
+            z-index: 100;
         }
 
         h1 {
@@ -73,34 +63,11 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            opacity: 0.9;
-        }
-
-        /* Navigation Guide Badge */
-        .nav-guide {
-            padding: 4px 12px;
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #93c5fd;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            animation: pulse 2s infinite;
-        }
-
-        .nav-guide::before {
-            content: "ℹ";
-            font-weight: bold;
         }
 
         .viewer-wrapper {
-            position: relative;
             flex-grow: 1;
             width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
             background: #000;
         }
 
@@ -110,105 +77,18 @@
             border: none;
         }
 
-        /* The Protective Mask */
-        .protection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: calc(100% - 80px);
-            /* Space for wide navigation area */
-            height: 100%;
-            background: rgba(128, 128, 128, 0.05);
-            /* Subtle grey mask */
-            z-index: 10;
-            cursor: default;
-        }
-
-        /* Visible Scroll Track */
-        .scroll-track-guide {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 80px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            /* Bright white */
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-weight: 700;
-            font-size: 1.1rem;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            letter-spacing: 0.8em;
-            pointer-events: none;
-            /* Let events pass */
-            border-left: 2px solid var(--accent-color);
-        }
-
-        .scroll-track-guide::after {
-            content: "자료 이동";
-            padding: 20px 0;
-        }
-
         footer {
-            margin-top: 4px;
+            padding: 8px 0;
             font-size: 0.75rem;
             opacity: 0.4;
             text-align: center;
-        }
-
-        @keyframes pulse {
-            0% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.02);
-            }
-
-            100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.98);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            background: rgba(0, 0, 0, 0.6);
+            border-top: 1px solid var(--glass-border);
         }
 
         @media (max-width: 768px) {
-            .container {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-                padding: 8px;
-            }
-
             h1 {
                 font-size: 1rem;
-            }
-
-            .nav-guide,
-            .scroll-track-guide {
-                display: none;
-            }
-
-            .protection-overlay {
-                width: 100%;
             }
         }
     </style>
@@ -218,42 +98,21 @@
     <div class="container">
         <header>
             <h1>경기도교육청 정보자원통합 중간보고회</h1>
-            <div class="nav-guide">우측 흰색 영역을 이용해 이동하세요</div>
         </header>
 
         <div class="viewer-wrapper">
-            <!-- Protective overlay that blocks clicks -->
-            <div class="protection-overlay" id="overlay"></div>
-
-            <!-- Visible guide for the scroll area -->
-            <div class="scroll-track-guide"></div>
-
             <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=1" class="pdf-viewer" id="viewer">
-                <p>Your browser does not support iframes.</p>
+                <p>브라우저가 PDF 뷰어를 지원하지 않습니다.</p>
             </iframe>
         </div>
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized access only.<br>
-            Last Deployed: 2026-02-24 19:10:00 (KST)
+            Last Deployed: 2026-02-24 19:15:00 (KST)
         </footer>
     </div>
 
     <script>
-        const overlay = document.getElementById('overlay');
-        const iframe = document.getElementById('viewer');
-
-        // Forward wheel events from overlay to iframe
-        overlay.addEventListener('wheel', function (e) {
-            try {
-                // PDF viewers inside iframes are tricky. 
-                // We try to scroll the contentWindow if accessible.
-                iframe.contentWindow.scrollBy(0, e.deltaY);
-            } catch (err) {
-                // Cross-origin catch, though same-origin should be fine.
-            }
-        }, { passive: true });
-
         // Additional protection layer
         document.addEventListener('keydown', function (e) {
             if (e.key === 'PrintScreen') e.preventDefault();
@@ -262,15 +121,17 @@
             if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i')) e.preventDefault();
         });
 
+        const iframe = document.getElementById('viewer');
         iframe.onload = function () {
             try {
+                // Attempt to disable right-click inside the iframe if same-origin
                 iframe.contentWindow.addEventListener('contextmenu', function (e) {
                     e.preventDefault();
                 }, false);
             } catch (e) { }
         };
     </script>
-    <!-- Cache Buster: 99c72e1a-5b12-4d3e-8f9a-0d1234567890 -->
+    <!-- Cache Buster: simplified-final-v1 -->
 </body>
 
 </html>
