@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>225 Report Preview | PyhgoShift</title>
+    <title>경기도교육청 정보자원통합 중간보고회 | PyhgoShift</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0a0a0c;
+            --bg-color: #050505;
             --accent-color: #3b82f6;
-            --text-color: #e2e8f0;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #f1f5f9;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            /* Disable selection */
         }
 
         body {
@@ -32,105 +35,137 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0a0a0c 100%);
+            background: radial-gradient(circle at 50% 50%, #111827 0%, #050505 100%);
         }
 
         .container {
-            width: 90%;
-            max-width: 1200px;
-            height: 85vh;
+            width: 98%;
+            /* Increased width */
+            max-width: 1600px;
+            height: 96vh;
+            /* Increased height */
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            animation: fadeIn 0.8s ease-out;
+            gap: 12px;
+            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding-bottom: 12px;
+            padding: 8px 0;
             border-bottom: 1px solid var(--glass-border);
         }
 
         h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            background: linear-gradient(to right, #60a5fa, #a855f7);
+            font-size: 1.25rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            background: linear-gradient(to right, #93c5fd, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .btn-download {
-            padding: 10px 20px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.6);
-            filter: brightness(1.1);
+            opacity: 0.9;
         }
 
         .pdf-viewer {
             flex-grow: 1;
             width: 100%;
-            border-radius: 12px;
+            border-radius: 8px;
             border: none;
-            background: #1e293b;
+            background: #000;
         }
 
         footer {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            opacity: 0.6;
+            margin-top: 4px;
+            font-size: 0.75rem;
+            opacity: 0.4;
             text-align: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        /* Mobile specific adjustments */
         @media (max-width: 768px) {
             .container {
-                width: 95%;
-                height: 90vh;
-                padding: 16px;
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 8px;
             }
-            h1 { font-size: 1.1rem; }
+
+            h1 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
-<body>
+
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
     <div class="container">
         <header>
-            <h1>Geoci 225 Report</h1>
-            <a href="geoci_225report.pdf" download class="btn-download">Download PDF</a>
+            <h1>경기도교육청 정보자원통합 중간보고회</h1>
         </header>
-        
-        <iframe src="geoci_225report.pdf#toolbar=0" class="pdf-viewer">
-            <p>Your browser does not support iframes. 
-               <a href="geoci_225report.pdf">Click here to view the PDF.</a></p>
+
+        <!-- #toolbar=0 disables the default Chrome PDF toolbar, which includes the download button -->
+        <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&scrollbar=0" class="pdf-viewer" id="viewer">
+            <p>Your browser does not support iframes.</p>
         </iframe>
 
         <footer>
-            &copy; 2026 PyhgoShift Digital Workforce. All rights reserved.
+            &copy; 2026 PyhgoShift Security Protocol. Authorized access only.
         </footer>
     </div>
+
+    <script>
+        // Additional protection layer
+        document.addEventListener('keydown', function (e) {
+            // Disable PrintScreen (not always possible, but good to try)
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+            }
+            // Disable Save (Ctrl+S or Cmd+S)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+            }
+            // Disable Print (Ctrl+P or Cmd+P)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+            }
+            // Disable DevTools (F12, Ctrl+Shift+I)
+            if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i')) {
+                e.preventDefault();
+            }
+        });
+
+        // Block context menu even on iframe (though it's harder in cross-origin, same-origin works better)
+        const iframe = document.getElementById('viewer');
+        iframe.onload = function () {
+            try {
+                iframe.contentWindow.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                }, false);
+            } catch (e) {
+                // If cross-origin restrictions apply, this catch will trigger.
+                // But since it's same-origin, it should work.
+            }
+        };
+    </script>
 </body>
+
 </html>
