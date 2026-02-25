@@ -33,8 +33,19 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow: hidden !important;
+            /* Force hide scrollbar */
             background: radial-gradient(circle at 50% 50%, #111827 0%, #050505 100%);
+        }
+
+        /* Hide all scrollbars */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .container {
@@ -50,7 +61,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 40px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
             border-bottom: 2px solid var(--accent-color);
             z-index: 300;
@@ -67,34 +78,39 @@
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 400;
         }
 
         .btn {
-            padding: 8px 20px;
+            width: 42px;
+            height: 42px;
             background: rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(59, 130, 246, 0.5);
             color: #fff;
-            border-radius: 6px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.2s;
             pointer-events: auto !important;
-            /* Force interactive */
         }
 
         .btn:hover {
             background: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
 
         .page-info {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #93c5fd;
-            min-width: 80px;
+            font-family: monospace;
+            min-width: 50px;
             text-align: center;
+            opacity: 0.8;
         }
 
         .viewer-wrapper {
@@ -102,12 +118,14 @@
             width: 100%;
             background: #000;
             position: relative;
+            overflow: hidden;
         }
 
         .pdf-viewer {
             width: 100%;
             height: 100%;
             border: none;
+            transition: opacity 0.3s ease;
         }
 
         .protection-overlay {
@@ -124,9 +142,9 @@
         footer {
             padding: 6px 0;
             font-size: 0.7rem;
-            opacity: 0.3;
+            opacity: 0.2;
             text-align: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: #000;
             border-top: 1px solid var(--glass-border);
         }
     </style>
@@ -135,23 +153,24 @@
 <body oncontextmenu="return false" onselectstart="return false">
     <div class="container">
         <header>
-            <h1>경기도교육청 정보자원통합 중간보고회 (보안 모드)</h1>
+            <h1>경기도교육청 정보자원통합 중간보고회</h1>
             <div class="nav-controls">
-                <button class="btn" onclick="prevPage()">이전 페이지</button>
-                <div class="page-info" id="pageDisplay">Page: 1</div>
-                <button class="btn" onclick="nextPage()">다음 페이지</button>
+                <button class="btn" title="이전" onclick="prevPage()">▲</button>
+                <div class="page-info" id="pageDisplay">P.01</div>
+                <button class="btn" title="다음" onclick="nextPage()">▼</button>
             </div>
         </header>
 
         <div class="viewer-wrapper">
             <div class="protection-overlay" id="protectionLayer"></div>
-            <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&view=FitH&page=1" class="pdf-viewer"
+            <!-- Cache busting via ?v= timestamp -->
+            <iframe src="geoci_225report.pdf?v=0925#toolbar=0&navpanes=0&view=FitH&page=1" class="pdf-viewer"
                 id="pdfViewer"></iframe>
         </div>
 
         <footer>
             &copy; 2026 PyhgoShift Security Protocol. Authorized Access Only.<br>
-            Security Level: MAXIMUM | Last Deployed: 2026-02-25 09:20 (KST)
+            Last Deployed: 2026-02-25 09:25 (KST)
         </footer>
     </div>
 
@@ -162,8 +181,12 @@
         const layer = document.getElementById('protectionLayer');
 
         function updatePage() {
-            viewer.src = `geoci_225report.pdf#toolbar=0&navpanes=0&view=FitH&page=${currentPage}`;
-            display.innerText = `Page: ${currentPage}`;
+            viewer.style.opacity = '0';
+            setTimeout(() => {
+                viewer.src = `geoci_225report.pdf?v=0925#toolbar=0&navpanes=0&view=FitH&page=${currentPage}`;
+                display.innerText = `P.${currentPage.toString().padStart(2, '0')}`;
+                viewer.style.opacity = '1';
+            }, 300);
         }
 
         function nextPage() {
@@ -178,12 +201,12 @@
             }
         }
 
-        // Wheel Support: Throttle it to simulate page turns
+        // Wheel Support with Debounce
         let lastWheelTime = 0;
         layer.addEventListener('wheel', function (e) {
             e.preventDefault();
             const now = Date.now();
-            if (now - lastWheelTime < 500) return; // Debounce 500ms
+            if (now - lastWheelTime < 800) return;
 
             if (e.deltaY > 0) {
                 nextPage();
@@ -193,7 +216,7 @@
             lastWheelTime = now;
         }, { passive: false });
 
-        // Kill Clicks on Overlay and Header except Buttons
+        // Standard interaction block except for buttons
         document.addEventListener('click', (e) => {
             if (!e.target.classList.contains('btn')) {
                 e.preventDefault();
@@ -201,15 +224,12 @@
             }
         }, true);
 
-        // Standard Keyboard Locks
         window.addEventListener('keydown', function (e) {
-            if (e.key === 'PrintScreen') e.preventDefault();
             if (e.ctrlKey || e.metaKey) {
                 if (['s', 'p', 'u'].includes(e.key.toLowerCase())) e.preventDefault();
             }
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
 
-            // Arrow navigation
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') nextPage();
             if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') prevPage();
         });
