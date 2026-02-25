@@ -30,14 +30,11 @@
             color: var(--text-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden !important;
             background: radial-gradient(circle at 50% 50%, #111827 0%, #050505 100%);
         }
 
-        /* Essential: Hide all scrollbars */
         ::-webkit-scrollbar {
             display: none;
         }
@@ -48,90 +45,93 @@
         }
 
         .container {
-            width: 100%;
-            height: 100vh;
+            flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
+            overflow: hidden;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 40px;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
+            padding: 12px 40px;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(25px);
             border-bottom: 2px solid var(--accent-color);
-            z-index: 500;
+            z-index: 1000;
         }
 
         h1 {
             font-size: 1.1rem;
             font-weight: 600;
-            background: linear-gradient(to right, #93c5fd, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
 
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
-            z-index: 600;
+            gap: 20px;
+            z-index: 1100;
+        }
+
+        .btn-box {
+            display: flex;
+            gap: 10px;
         }
 
         .btn {
-            width: 44px;
-            height: 44px;
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.8);
             color: #fff;
-            border-radius: 50%;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: auto !important;
         }
 
         .btn:hover {
             background: var(--accent-color);
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.6);
         }
 
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
 
         .page-info {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #93c5fd;
-            font-family: monospace;
-            min-width: 60px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 700;
+            min-width: 70px;
             text-align: center;
-            font-weight: 600;
         }
 
-        .viewer-container {
-            flex-grow: 1;
-            width: 100%;
-            background: #000;
+        .viewer-stage {
+            flex: 1;
             position: relative;
+            background: #000;
             overflow: hidden;
-            /* This clips the sliding wrapper */
         }
 
-        .viewer-wrapper {
-            width: 100%;
-            height: 100%;
+        .viewer-layer {
             position: absolute;
             top: 0;
             left: 0;
-            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            will-change: transform;
         }
 
         .pdf-viewer {
@@ -140,13 +140,13 @@
             border: none;
         }
 
-        .protection-overlay {
+        .protection-wall {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 400;
+            z-index: 500;
             background: transparent;
         }
 
@@ -157,20 +157,7 @@
             text-align: center;
             background: #000;
             border-top: 1px solid var(--glass-border);
-            z-index: 500;
-        }
-
-        /* Sliding classes */
-        .slide-up {
-            transform: translateY(-100%);
-        }
-
-        .slide-down {
-            transform: translateY(100%);
-        }
-
-        .slide-in {
-            transform: translateY(0);
+            z-index: 1000;
         }
     </style>
 </head>
@@ -180,79 +167,87 @@
         <header>
             <h1>경기도교육청 정보자원통합 중간보고회</h1>
             <div class="nav-controls">
-                <button class="btn" title="이전" onclick="prevPage()">▲</button>
                 <div class="page-info" id="pageDisplay">P.01</div>
-                <button class="btn" title="다음" onclick="nextPage()">▼</button>
+                <div class="btn-box">
+                    <button class="btn" title="이전" onclick="prevPage()">▲</button>
+                    <button class="btn" title="다음" onclick="nextPage()">▼</button>
+                </div>
             </div>
         </header>
 
-        <div class="viewer-container">
-            <div class="protection-overlay" id="protectionLayer"></div>
+        <div class="viewer-stage">
+            <div class="protection-wall" id="protectionLayer"></div>
 
-            <div class="viewer-wrapper" id="viewerWrapper">
-                <iframe src="geoci_225report.pdf?v=0955#toolbar=0&navpanes=0&view=FitH&page=1" class="pdf-viewer"
+            <div class="viewer-layer" id="viewerLayer">
+                <iframe src="geoci_225report.pdf?v=1005#toolbar=0&navpanes=0&view=FitH&page=1" class="pdf-viewer"
                     id="pdfViewer"></iframe>
             </div>
         </div>
 
         <footer>
-            &copy; 2026 PyhgoShift Security Protocol. Authorized Access Only.<br>
-            Last Deployed: 2026-02-25 09:55 (KST)
+            Security Protocol Active | Last Updated: 2026-02-25 10:05 (KST)
         </footer>
     </div>
 
     <script>
         let currentPage = 1;
-        const wrapper = document.getElementById('viewerWrapper');
+        let isTransitioning = false;
+        const layer = document.getElementById('viewerLayer');
         const viewer = document.getElementById('pdfViewer');
         const display = document.getElementById('pageDisplay');
-        const layer = document.getElementById('protectionLayer');
+        const protection = document.getElementById('protectionLayer');
 
-        function updatePage(direction) {
-            // Simulated scrolling effect using CSS transitions
-            const slideClass = direction === 'next' ? 'slide-up' : 'slide-down';
+        function slideToPage(direction) {
+            if (isTransitioning) return;
+            isTransitioning = true;
 
-            // 1. Move current out
-            wrapper.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s';
-            wrapper.style.transform = (direction === 'next' ? 'translateY(-30px)' : 'translateY(30px)');
-            wrapper.style.opacity = '0';
+            const distance = direction === 'next' ? -100 : 100;
+
+            // 1. First, slide the current layer out
+            layer.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            layer.style.transform = `translateY(${distance}px)`;
+            layer.style.opacity = '0';
 
             setTimeout(() => {
-                // 2. Teleport to opposite side
-                wrapper.style.transition = 'none';
-                wrapper.style.transform = (direction === 'next' ? 'translateY(30px)' : 'translateY(-30px)');
+                // 2. Teleport to start position for the incoming slide
+                layer.style.transition = 'none';
+                layer.style.transform = `translateY(${-distance}px)`;
 
-                // 3. Update Content
-                viewer.src = `geoci_225report.pdf?v=0955#toolbar=0&navpanes=0&view=FitH&page=${currentPage}`;
+                // 3. Update Content - FORCE RELOAD with UNIQUE parameter to ensure jump
+                const ts = Date.now();
+                viewer.src = `geoci_225report.pdf?t=${ts}#toolbar=0&navpanes=0&view=FitH&page=${currentPage}`;
                 display.innerText = `P.${currentPage.toString().padStart(2, '0')}`;
 
-                // 4. Slide back in
-                setTimeout(() => {
-                    wrapper.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s';
-                    wrapper.style.transform = 'translateY(0)';
-                    wrapper.style.opacity = '1';
-                }, 50);
-            }, 400);
+                // 4. Final slide-in
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        layer.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s';
+                        layer.style.transform = 'translateY(0)';
+                        layer.style.opacity = '1';
+                        isTransitioning = false;
+                    }, 50);
+                });
+            }, 350);
         }
 
         function nextPage() {
             currentPage++;
-            updatePage('next');
+            slideToPage('next');
         }
 
         function prevPage() {
             if (currentPage > 1) {
                 currentPage--;
-                updatePage('prev');
+                slideToPage('prev');
             }
         }
 
-        // Wheel Support with Throttle
+        // Wheel to Scroll Effect
         let lastWheelTime = 0;
-        layer.addEventListener('wheel', function (e) {
+        protection.addEventListener('wheel', function (e) {
             e.preventDefault();
             const now = Date.now();
-            if (now - lastWheelTime < 1000) return;
+            if (now - lastWheelTime < 1200) return; // Throttle wheel navigation
 
             if (e.deltaY > 0) {
                 nextPage();
@@ -262,22 +257,20 @@
             lastWheelTime = now;
         }, { passive: false });
 
-        // Interaction blocks
+        // Security: Block all clicks except on buttons
         document.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('btn')) {
+            if (!e.target.closest('.btn')) {
                 e.preventDefault();
                 e.stopPropagation();
             }
         }, true);
 
+        // Security: Key locks
         window.addEventListener('keydown', function (e) {
-            if (e.ctrlKey || e.metaKey) {
-                if (['s', 'p', 'u'].includes(e.key.toLowerCase())) e.preventDefault();
-            }
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
+            if (e.ctrlKey || e.metaKey || e.key === 'F12') e.preventDefault();
 
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') nextPage();
-            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') prevPage();
+            if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) nextPage();
+            if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) prevPage();
         });
     </script>
 </body>
