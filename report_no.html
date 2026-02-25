@@ -22,7 +22,6 @@
             box-sizing: border-box;
             user-select: none !important;
             -webkit-user-select: none !important;
-            -ms-user-select: none !important;
         }
 
         body {
@@ -48,23 +47,54 @@
 
         header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 100;
+            padding: 10px 40px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid var(--accent-color);
+            z-index: 300;
         }
 
         h1 {
             font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.05em;
-            background: linear-gradient(to right, #ef4444, #f59e0b);
-            background-clip: text;
+            font-weight: 600;
+            background: linear-gradient(to right, #93c5fd, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 400;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            pointer-events: auto !important;
+            /* Force interactive */
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .page-info {
+            font-size: 0.9rem;
+            color: #93c5fd;
+            min-width: 80px;
+            text-align: center;
         }
 
         .viewer-wrapper {
@@ -80,10 +110,6 @@
             border: none;
         }
 
-        /* 
-           Super Protection Overlay 
-           This blocks all mouse clicks, drags, and selections.
-        */
         .protection-overlay {
             position: absolute;
             top: 0;
@@ -106,74 +132,87 @@
     </style>
 </head>
 
-<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<body oncontextmenu="return false" onselectstart="return false">
     <div class="container">
         <header>
-            <h1>경기도교육청 정보자원통합 중간보고회 (보안 강화 모드)</h1>
+            <h1>경기도교육청 정보자원통합 중간보고회 (보안 모드)</h1>
+            <div class="nav-controls">
+                <button class="btn" onclick="prevPage()">이전 페이지</button>
+                <div class="page-info" id="pageDisplay">Page: 1</div>
+                <button class="btn" onclick="nextPage()">다음 페이지</button>
+            </div>
         </header>
 
         <div class="viewer-wrapper">
-            <!-- This overlay stops ALL direct interaction with the PDF -->
             <div class="protection-overlay" id="protectionLayer"></div>
-
-            <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&view=FitH" class="pdf-viewer" id="pdfViewer">
-                <p>브라우저가 PDF 뷰어를 지원하지 않습니다.</p>
-            </iframe>
+            <iframe src="geoci_225report.pdf#toolbar=0&navpanes=0&view=FitH&page=1" class="pdf-viewer"
+                id="pdfViewer"></iframe>
         </div>
 
         <footer>
-            &copy; 2026 PyhgoShift Security Protocol. Interaction strictly limited.<br>
-            Security Level: MAXIMUM | Last Deployed: 2026-02-25 09:12 (KST)
+            &copy; 2026 PyhgoShift Security Protocol. Authorized Access Only.<br>
+            Security Level: MAXIMUM | Last Deployed: 2026-02-25 09:20 (KST)
         </footer>
     </div>
 
     <script>
-        const layer = document.getElementById('protectionLayer');
+        let currentPage = 1;
         const viewer = document.getElementById('pdfViewer');
+        const display = document.getElementById('pageDisplay');
+        const layer = document.getElementById('protectionLayer');
 
-        /**
-         * 1. Mouse Wheel Injection
-         * Forward wheel events to the hidden iframe to allow scrolling.
-         */
+        function updatePage() {
+            viewer.src = `geoci_225report.pdf#toolbar=0&navpanes=0&view=FitH&page=${currentPage}`;
+            display.innerText = `Page: ${currentPage}`;
+        }
+
+        function nextPage() {
+            currentPage++;
+            updatePage();
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePage();
+            }
+        }
+
+        // Wheel Support: Throttle it to simulate page turns
+        let lastWheelTime = 0;
         layer.addEventListener('wheel', function (e) {
             e.preventDefault();
-            try {
-                // Adjust scroll multiplier for better feel
-                const amount = e.deltaY;
-                viewer.contentWindow.scrollBy(0, amount);
-            } catch (err) {
-                // Note: Accessing contentWindow.scrollBy might be blocked 
-                // in some PDF viewer implementations via iframe.
-                // Reverting to manual scroll attempt if browser permits.
+            const now = Date.now();
+            if (now - lastWheelTime < 500) return; // Debounce 500ms
+
+            if (e.deltaY > 0) {
+                nextPage();
+            } else {
+                prevPage();
             }
+            lastWheelTime = now;
         }, { passive: false });
 
-        /**
-         * 2. Comprehensive Keyboard Lock
-         * Disable Printing, Saving, and DevTools.
-         */
-        window.addEventListener('keydown', function (e) {
-            // PrintScreen
-            if (e.key === 'PrintScreen') {
+        // Kill Clicks on Overlay and Header except Buttons
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('btn')) {
                 e.preventDefault();
-                alert('캡처가 금지된 문서입니다.');
+                e.stopPropagation();
             }
-            // Ctrl+S, Ctrl+P, Ctrl+U (Source), F12, Ctrl+Shift+I
-            if (e.ctrlKey || e.metaKey) {
-                if (['s', 'p', 'u'].includes(e.key.toLowerCase())) {
-                    e.preventDefault();
-                }
-            }
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
+        }, true);
 
-        /**
-         * 3. Kill all clicks on the entire document
-         */
-        document.addEventListener('mousedown', (e) => e.preventDefault(), true);
-        document.addEventListener('click', (e) => e.preventDefault(), true);
+        // Standard Keyboard Locks
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'PrintScreen') e.preventDefault();
+            if (e.ctrlKey || e.metaKey) {
+                if (['s', 'p', 'u'].includes(e.key.toLowerCase())) e.preventDefault();
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
+
+            // Arrow navigation
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') nextPage();
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') prevPage();
+        });
     </script>
 </body>
 
