@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<style>
-body {
-    margin: 0;
-    background: transparent;
-    color: white;
-    font-size: 48px;
-    font-family: Arial, sans-serif;
-}
-</style>
-</head>
-<body>
-<div id="timer"></div>
+<body style="background:black; color:white; font-size:40px;">
+<div id="timer">로딩중...</div>
 
 <script>
-// ⚠️ 예정 시간 (KST 기준)
 const target = new Date("2026-04-03T20:00:00+09:00");
 
 function update() {
@@ -24,7 +11,7 @@ function update() {
     const diff = target - now;
 
     if (diff <= 0) {
-        document.getElementById("timer").innerHTML = "🔴 LIVE";
+        document.getElementById("timer").innerHTML = "LIVE";
         return;
     }
 
@@ -33,11 +20,12 @@ function update() {
     const s = Math.floor((diff / 1000) % 60);
 
     document.getElementById("timer").innerHTML =
-        `${h}시간 ${m}분 ${s}초`;
+        h + "시간 " + m + "분 " + s + "초";
 }
 
 setInterval(update, 1000);
 update();
 </script>
+
 </body>
 </html>
