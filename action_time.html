@@ -1,17 +1,112 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black; color:white; font-size:40px;">
-<div id="timer">로딩중...</div>
+<head>
+<meta charset="UTF-8">
+
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: url('main/timebb.png') no-repeat center center;
+    background-size: cover;
+
+    font-family: 'Pretendard', sans-serif;
+    color: white;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 50px;
+
+    background: rgba(0,0,0,0.4);
+    padding: 40px 60px;
+    border-radius: 20px;
+
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.line {
+    margin: 20px 0;
+}
+
+/* 꽃잎 */
+.petal {
+    position: absolute;
+    top: -50px;
+    width: 15px;
+    height: 15px;
+    background: pink;
+    border-radius: 50% 50% 50% 0;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(110vh) translateX(100px) rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="line" id="current">현재시간 : --</div>
+    <div class="line" id="remain">시작시간 : --</div>
+</div>
 
 <script>
-const target = new Date("2026-04-03T20:00:00+09:00");
+
+// 🌸 꽃잎 생성
+function createPetal() {
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+
+    petal.style.left = Math.random() * window.innerWidth + "px";
+    petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+    document.body.appendChild(petal);
+
+    setTimeout(() => petal.remove(), 10000);
+}
+setInterval(createPetal, 300);
+
+
+// ⏰ 기준 시간 (4월 3일 18시 KST)
+const target = new Date("2026-04-03T18:00:00+09:00");
 
 function update() {
     const now = new Date();
+
+    // 현재 시간
+    const currentTime =
+        now.getHours().toString().padStart(2, '0') + ":" +
+        now.getMinutes().toString().padStart(2, '0') + ":" +
+        now.getSeconds().toString().padStart(2, '0');
+
+    document.getElementById("current").innerHTML =
+        "현재시간 : " + currentTime;
+
+    // 남은 시간
     const diff = target - now;
 
     if (diff <= 0) {
-        document.getElementById("timer").innerHTML = "LIVE";
+        document.getElementById("remain").innerHTML =
+            "🔴 LIVE 진행중";
         return;
     }
 
@@ -19,12 +114,13 @@ function update() {
     const m = Math.floor((diff / (1000*60)) % 60);
     const s = Math.floor((diff / 1000) % 60);
 
-    document.getElementById("timer").innerHTML =
-        h + "시간 " + m + "분 " + s + "초";
+    document.getElementById("remain").innerHTML =
+        "시작시간 : -" + h + "시간 " + m + "분 " + s + "초";
 }
 
 setInterval(update, 1000);
 update();
+
 </script>
 
 </body>
