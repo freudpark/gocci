@@ -15,9 +15,11 @@ body {
     align-items: center;
     justify-content: flex-start;
 
-    /* ✅ GitHub Pages 절대경로 */
-    background: url('/gocci/timebb.png') no-repeat center center;
+    /* 🔥 배경 수정 (핵심) */
+    background-image: url('./timebb.png');
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     font-family: 'Pretendard', sans-serif;
     color: white;
@@ -25,8 +27,8 @@ body {
 
 /* 텍스트 영역 */
 .container {
-    font-size: 150px;      /* 3배 확대 */
-    font-weight: 900;      /* Bold */
+    font-size: 150px;
+    font-weight: 900;
     text-align: left;
 
     padding-left: 100px;
@@ -92,7 +94,6 @@ const target = new Date("2026-04-03T18:00:00+09:00");
 function update() {
     const now = new Date();
 
-    // 현재 시간
     const currentTime =
         now.getHours().toString().padStart(2, '0') + ":" +
         now.getMinutes().toString().padStart(2, '0') + ":" +
@@ -101,7 +102,6 @@ function update() {
     document.getElementById("current").innerHTML =
         "현재시간 : " + currentTime;
 
-    // 남은 시간 계산
     const diff = target - now;
 
     if (diff <= 0) {
