@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+    margin: 0;
+    background: transparent;
+    color: white;
+    font-size: 48px;
+    font-family: Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+<div id="timer"></div>
+
+<script>
+// ⚠️ 예정 시간 (KST 기준)
+const target = new Date("2026-04-03T20:00:00+09:00");
+
+function update() {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+        document.getElementById("timer").innerHTML = "🔴 LIVE";
+        return;
+    }
+
+    const h = Math.floor(diff / (1000*60*60));
+    const m = Math.floor((diff / (1000*60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("timer").innerHTML =
+        `${h}시간 ${m}분 ${s}초`;
+}
+
+setInterval(update, 1000);
+update();
+</script>
+</body>
+</html>
